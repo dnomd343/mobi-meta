@@ -1,8 +1,6 @@
 import mobimeta.*;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 class Main {
@@ -110,9 +108,37 @@ class Main {
         }
     }
 
-//    private static void setASIN(MobiMeta meta, String asin) {
-//
-//    }
+    private static void setASIN(MobiMeta meta, String asin) {
+        String encoding = meta.getCharacterEncoding();
+        List<EXTHRecord> exthList = meta.getEXTHRecords();
+        boolean flag = false;
+        for (EXTHRecord rec : exthList) {
+            int recType = rec.getRecordType();
+            if (recType == 113 || recType == 504) {
+                rec.setData(asin, encoding);
+                flag = true;
+            }
+        }
+        if (!flag) { // without `ASIN` field
+            exthList.add(new EXTHRecord(113, asin, encoding));
+            exthList.add(new EXTHRecord(504, asin, encoding)); // `504` priority on kindle
+        }
+    }
+
+    private static void setCDE(MobiMeta meta, String cde) {
+        String encoding = meta.getCharacterEncoding();
+        List<EXTHRecord> exthList = meta.getEXTHRecords();
+        boolean flag = false;
+        for (EXTHRecord rec : exthList) {
+            if (rec.getRecordType() == 501) {
+                rec.setData(cde, encoding);
+                flag = true;
+            }
+        }
+        if (!flag) { // without `CDE type` field
+            exthList.add(new EXTHRecord(501, cde, encoding));
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -126,6 +152,8 @@ class Main {
 //        setBookName(meta, "生若栩栩");
 //        setAuthor(meta, "大叙");
 //        setISBN(meta, "666");
+//        setASIN(meta, "23333");
+//        setCDE(meta, "PDOC");
 //        saveFile(meta, new File("XXRS_new.azw3"));
 
     }
