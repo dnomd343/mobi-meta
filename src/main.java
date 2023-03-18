@@ -20,6 +20,7 @@ class Main {
     }
 
     private static void saveFile(MobiMeta meta, File file) {
+        meta.setEXTHRecords();
         try {
             meta.saveToNewFile(file);
         } catch (MobiMetaException err) {
@@ -73,24 +74,58 @@ class Main {
                 flag = true;
             }
         }
-        if (!flag) { // without updated title
+        if (!flag) { // without `updated title` field
             exthList.add(new EXTHRecord(503, name, encoding));
         }
         meta.setFullName(name);
-        meta.setEXTHRecords();
     }
+
+    private static void setAuthor(MobiMeta meta, String author) {
+        String encoding = meta.getCharacterEncoding();
+        List<EXTHRecord> exthList = meta.getEXTHRecords();
+        boolean flag = false;
+        for (EXTHRecord rec : exthList) {
+            if (rec.getRecordType() == 100) {
+                rec.setData(author, encoding);
+                flag = true;
+            }
+        }
+        if (!flag) { // without `author` field
+            exthList.add(new EXTHRecord(100, author, encoding));
+        }
+    }
+
+    private static void setISBN(MobiMeta meta, String isbn) {
+        String encoding = meta.getCharacterEncoding();
+        List<EXTHRecord> exthList = meta.getEXTHRecords();
+        boolean flag = false;
+        for (EXTHRecord rec : exthList) {
+            if (rec.getRecordType() == 104) {
+                rec.setData(isbn, encoding);
+                flag = true;
+            }
+        }
+        if (!flag) { // without `ISBN` field
+            exthList.add(new EXTHRecord(104, isbn, encoding));
+        }
+    }
+
+//    private static void setASIN(MobiMeta meta, String asin) {
+//
+//    }
 
     public static void main(String[] args) {
 
-        String testFile = "XXRS.azw3";
+//        String testFile = "XXRS.azw3";
+        String testFile = "XXRS_new.azw3";
 
         File target = new File(testFile);
         showMeta(target);
 
 //        MobiMeta meta = readFile(target);
 //        setBookName(meta, "生若栩栩");
-//        showMeta(target);
-
+//        setAuthor(meta, "大叙");
+//        setISBN(meta, "666");
 //        saveFile(meta, new File("XXRS_new.azw3"));
 
     }
