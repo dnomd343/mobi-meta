@@ -225,6 +225,16 @@ Huffman Table Length: 0
 ================================================================
 ```
 
+## Build
+
+```bash
+$ javac -sourcepath ./src/ ./src/main.java -d ./bin/
+$ cd ./bin/
+$ jar cvfm mobi-meta.jar MANIFEST.MF Main.class mobimeta/*.class
+$ java -jar mobi-meta.jar
+(HELP MESSAGE...)
+```
+
 ## License
 
 Use the same MIT license as [Java-Mobi-Metadata-Editor](https://github.com/kwkoo/Java-Mobi-Metadata-Editor).
