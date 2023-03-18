@@ -140,13 +140,41 @@ class Main {
         }
     }
 
+    public static void showHelp() {
+        String prefix = "java -jar mobi-meta.jar";
+        System.out.println();
+        System.out.println("Display and edit metadata of MOBI or AZW3 file.");
+        System.out.println("  (https://github.com/dnomd343/mobi-meta.git)");
+        System.out.println();
+        System.out.println("Usage:");
+        System.out.printf("    %s show INPUT\n", prefix);
+        System.out.printf("    %s edit INPUT OUTPUT [OPTIONS]\n", prefix);
+        System.out.println();
+        System.out.println("Options:");
+        System.out.println("    --name NAME        Set eBook name");
+        System.out.println("    --author AUTHOR    Set eBook author");
+        System.out.println("    --isbn ISBN        Set eBook ISBN");
+        System.out.println("    --asin ASIN        Set eBook ASIN");
+        System.out.println("    --pdoc             Mark CDE-type as PDOC");
+        System.out.println("    --ebok             Mark CDE-type as EBOK");
+        System.out.println("    --ebsp             Mark CDE-type as EBSP");
+        System.out.println();
+        System.out.println("Examples:");
+        System.out.printf("  %s show my_book.mobi\n", prefix);
+        System.out.printf("  %s edit origin.mobi new.mobi --name NEW_NAME\n", prefix);
+        System.out.printf("  %s edit origin.mobi new.mobi --asin ASIN --ebok\n", prefix);
+        System.out.println();
+    }
+
     public static void main(String[] args) {
 
-//        String testFile = "XXRS.azw3";
-        String testFile = "XXRS_new.azw3";
+        showHelp();
 
-        File target = new File(testFile);
-        showMeta(target);
+//        String testFile = "XXRS.azw3";
+//        String testFile = "XXRS_new.azw3";
+
+//        File target = new File(testFile);
+//        showMeta(target);
 
 //        MobiMeta meta = readFile(target);
 //        setBookName(meta, "生若栩栩");
