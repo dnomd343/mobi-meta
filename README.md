@@ -2,7 +2,7 @@
 
 > Display and edit metadata of MOBI or AZW3 file.
 
-This is a fork of [Java-Mobi-Metadata-Editor](https://github.com/kwkoo/Java-Mobi-Metadata-Editor), which removes the GUI, uses a simple command line to modify e-book metadata, and allows more detailed data to be displayed.
+This project is a fork of [Java-Mobi-Metadata-Editor](https://github.com/kwkoo/Java-Mobi-Metadata-Editor), which removes the GUI, uses a simple command line to modify eBook metadata, and allows more detailed data to be displayed.
 
 ## Usage
 
@@ -27,6 +27,8 @@ Examples:
 ```
 
 ## Example
+
+**Read and display metadata**
 
 ```bash
 $ java -jar mobi-meta.jar show 栩栩若生.azw3
@@ -117,6 +119,8 @@ Huffman Table Length: 0
 ================================================================
 ```
 
+**Modify eBook metadata**
+
 ```bash
 $ java -jar mobi-meta.jar edit 栩栩若生.azw3 test.azw3 --pdoc --name 书名 --author 佚名 --isbn 我是ISBN --asin 我是ASIN
 ================================================================
@@ -128,6 +132,9 @@ CDE-type: PDOC
 ================================================================
 File save as: test.azw3
 ================================================================
+```
+
+```bash
 $ java -jar mobi-meta.jar show test.azw3
 ================================================================
 File name: test.azw3
