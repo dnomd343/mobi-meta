@@ -164,25 +164,74 @@ class Main {
         System.out.printf("  %s edit origin.mobi new.mobi --name NEW_NAME\n", prefix);
         System.out.printf("  %s edit origin.mobi new.mobi --asin ASIN --ebok\n", prefix);
         System.out.println();
+        System.exit(0);
     }
 
     public static void main(String[] args) {
-
-        showHelp();
-
-//        String testFile = "XXRS.azw3";
-//        String testFile = "XXRS_new.azw3";
-
-//        File target = new File(testFile);
-//        showMeta(target);
-
-//        MobiMeta meta = readFile(target);
-//        setBookName(meta, "生若栩栩");
-//        setAuthor(meta, "大叙");
-//        setISBN(meta, "666");
-//        setASIN(meta, "23333");
-//        setCDE(meta, "PDOC");
-//        saveFile(meta, new File("XXRS_new.azw3"));
-
+        if (args.length < 2) {
+            showHelp();
+        }
+        if (args[0].equalsIgnoreCase("show")) {
+            if (args.length != 2) {
+                showHelp();
+            }
+            showMeta(new File(args[1]));
+        } else if (args[0].equalsIgnoreCase("edit")) {
+            if (args.length < 3) {
+                showHelp();
+            }
+            String name = null;
+            String author = null;
+            String isbn = null;
+            String asin = null;
+            String cde = null;
+            for (int i = 3; i < args.length; ++i) {
+                if (args[i].equals("--pdoc")) {
+                    cde = "PDOC";
+                } else if (args[i].equals("--ebok")) {
+                    cde = "EBOK";
+                } else if (args[i].equals("--ebsp")) {
+                    cde = "EBSP";
+                } else if (args[i].equals("--name") && i + 1 != args.length) {
+                    name = args[++i];
+                } else if (args[i].equals("--author") && i + 1 != args.length) {
+                    author = args[++i];
+                } else if (args[i].equals("--isbn") && i + 1 != args.length) {
+                    isbn = args[++i];
+                } else if (args[i].equals("--asin") && i + 1 != args.length) {
+                    asin = args[++i];
+                } else {
+                    showHelp();
+                }
+            }
+            System.out.println(splitLine);
+            MobiMeta meta = readFile(new File(args[1])); // input file
+            if (name != null) {
+                System.out.printf("Name: %s\n", name);
+                setBookName(meta, name);
+            }
+            if (author != null) {
+                System.out.printf("Author: %s\n", author);
+                setAuthor(meta, author);
+            }
+            if (isbn != null) {
+                System.out.printf("ISBN: %s\n", isbn);
+                setISBN(meta, isbn);
+            }
+            if (asin != null) {
+                System.out.printf("ASIN: %s\n", asin);
+                setASIN(meta, asin);
+            }
+            if (cde != null) {
+                System.out.printf("CDE-type: %s\n", cde);
+                setCDE(meta, cde);
+            }
+            saveFile(meta, new File(args[2])); // output file
+            System.out.println(splitLine);
+            System.out.printf("File save as: %s\n", args[2]);
+            System.out.println(splitLine);
+        } else {
+            showHelp();
+        }
     }
 }
